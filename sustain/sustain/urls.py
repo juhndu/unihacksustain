@@ -24,6 +24,7 @@ urlpatterns = [
     #url(r'^restaurants/(?P<resto_id>\d+)/comments/$', views.delete_post, name='delete-post'),
     url(r'^api/dummy/$', views.Dummy.as_view()),
     url(r'^api/search/$', views.search),
+    url(r'^api/restaurants/(?P<rid>[0-9]+)/review$', views.submitReview),
     url(r'^api/restaurants/$', views.RestaurantList.as_view()),
     re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]

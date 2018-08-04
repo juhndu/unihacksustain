@@ -1,9 +1,12 @@
 from .models import *
 from .serializers import *
+from .forms import *
 from django.shortcuts import render
 from django.db.models import Avg, Sum
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from math import radians, cos, sin, asin, sqrt
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
@@ -15,6 +18,16 @@ from random import randint
 
 #def comments(request, resto_id):
 
+@api_view(['POST'])
+def submitReview(request, rid):
+    print(request.data)
+    form = ReviewForm(request.data)
+    if form.is_valid():
+        print("valid")
+        form.save()
+        return Response("ok")
+    return Response("failed")
+
 def genReviews(id):
     for i in range(0,10):
         water = randint(0,1)
@@ -23,11 +36,40 @@ def genReviews(id):
         vege = randint(0,10)
         if(vege>7):
             vege=0
-        rev = Review.objects.create(restaurant=id,score=randint(0,6),waterUp=water,waterDown=1-water,wasteUp=waste,wasteDown=1-waste,localUp=loca,localDown=1-loca,vegetarianUp=vege,vegetarianDown=1-vege)
+        rev = Review.objects.create(restaurant=id,score=randint(0,5),waterUp=water,wasteUp=waste,localUp=loca,vegetarianUp=vege)
     return
 
 def scoreReviews(id):
-    return
+    revScores = {}
+    Badge.objects.filter(restaurant=id).delete()
+    reviews = Review.objects.filter(restaurant=id)
+    Badge
+    wasteUps = 0
+    wasteDowns = 0
+    localUps = 0
+    localDowns = 0
+    waterUps = 0
+    waterDowns = 0
+    vegUps = 0
+    vegDowns = 0
+    for r in reviews:
+        wasteUps+=r.wasteUp
+        wasteDowns+=r.wasteDown
+        localUps+=r.localUp
+        localDowns+=r.localDown
+        waterUps+=r.waterUp
+        waterDowns+=r.waterDown
+        vegUps+=r.vegetarianUp
+        vegDowns+=r.vegetarianDown
+    revScores['waste']=float(wasteUps)/(float(wasteUps)+float(wasteDowns))
+    revScores['water']=float(waterUps)/(float(waterUps)+float(waterDowns))
+    revScores['veg']=float(vegUps)/(float(vegUps)+float(vegDowns))
+    revScores['local']=float(localUps)/(float(localUps)+float(localDowns))
+    for k,v in revScores.items():
+        if (v>0.7):
+            Badge.objects.create(name=k,restaurant=id)
+    revScores['comb'] = (revScores['waste'] + revScores['water'] + revScores['veg'] + revScores['local'])*5.0/4.0
+    return revScores
 
 def dist(lat1, long1, lat2, long2):
     lat1, long1, lat2, long2 = map(radians, [lat1, long1, lat2, long2])
@@ -61,30 +103,16 @@ def search(request):
         if not reviews:
             genReviews(new['id'])
         new['name'] = inner['name']
-        reviews = Review.objects.filter(restaurant=new['id'])
-        wasteUps = 0
-        wasteDowns = 0
-        localUps = 0
-        localDowns = 0
-        waterUps = 0
-        waterDowns = 0
-        vegUps = 0
-        vegDowns = 0
-        for r in reviews:
-            wasteUps+=r.wasteUp
-            wasteDowns+=r.wasteDown
-            localUps+=r.localUp
-            localDowns+=r.localDown
-            waterUps+=r.waterUp
-            waterDowns+=r.waterDown
-            vegUps+=r.vegetarianUp
-            vegDowns+=r.vegetarianDown
-        s = float(wasteUps)/(float(wasteUps)+float(wasteDowns))+float(waterUps)/(float(waterUps)+float(waterDowns))+ \
-            float(vegUps)/(float(vegUps)+float(vegDowns))+ float(localUps)/(float(localUps)+float(localDowns))
-        new['sustain_rating'] = s*5.0/4.0
+        revScores = scoreReviews(new['id'])
+        new['sustain_rating'] = revScores['comb']
         new['imgUrl'] = inner['featured_image']
         new['locality'] = location['locality_verbose']
         new['cuisines'] = inner['cuisines']
+        badges = Badge.objects.filter(restaurant = new['id'])
+        print(badges)
+        seri = BadgeSerializer(badges, many=True)
+
+        new['badges'] = seri.data
         new['rating'] = inner['user_rating']['aggregate_rating']
         new['dist'] = str(dist(float(lat), float(long), float(location['latitude']), float(location['longitude'])))
         outList.append(new)

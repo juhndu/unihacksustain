@@ -1,7 +1,8 @@
 from django import forms
 from .models import Review
+from django.forms import ModelForm
 
-class ReviewForm(forms.Form):
+class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = ('restaurant')
+        fields = ('restaurant','vegetarianUp','wasteUp','waterUp','localUp','comment')

@@ -1,6 +1,8 @@
 from django.db import models
 from decimal import *
-
+from random import randint
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -13,6 +15,7 @@ class BaseModel(models.Model):
 
 class Badge(BaseModel):
     name = models.CharField(max_length=30)
+    restaurant = models.IntegerField()
 
 
 class Restaurant(BaseModel):
@@ -27,8 +30,9 @@ class Restaurant(BaseModel):
 
 class Review(BaseModel):
     restaurant = models.IntegerField()
-    score = models.IntegerField()
+    score = models.IntegerField(default=randint(0,5))
     username = models.CharField(max_length=40, default="Anonymous")
+    comment = models.CharField(max_length=300)
     waterUp = models.IntegerField(default=0)
     waterDown = models.IntegerField(default=0)
     wasteUp = models.IntegerField(default=0)
@@ -39,7 +43,10 @@ class Review(BaseModel):
     vegetarianDown = models.IntegerField(default=0)
 
 
-class Comment(BaseModel):
-    restaurant = models.IntegerField()
-    username = models.CharField(max_length=40)
-    comment = models.CharField(max_length=300)
+@receiver(post_save, sender=Review)
+def update_votes(sender, instance, **kwargs):
+    instance.waterDown = 1 - instance.waterUp
+    instance.wasteDown = 1 - instance.wasteUp
+    instance.localDown = 1 - instance.localUp
+    instance.vegetarianDown = 1 - instance.vegetarianUp
+    instance.save()

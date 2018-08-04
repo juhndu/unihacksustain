@@ -8,18 +8,8 @@ class RestaurantSerializer(serializers.ModelSerializer):
         model = Restaurant
         fields = ('name','avg_rating','imgUrl')
 
-class ReviewSerializer(serializers.ModelSerializer):
+class BadgeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Review
-        fields = ('__all__')
-
-#
-# class PhotoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         fields = (
-#         '',
-#         '',
-#         ''
-#         )
-#         model = models.Photo
+        model = Badge
+        fields = (['name'])
