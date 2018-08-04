@@ -1,24 +1,36 @@
 <template>
 	<div class="home">
 		<navigation></navigation>
-		<location-services></location-services>
+		<location-services @updatemap="alert()"></location-services>
+		<GmapMap
+			ref="mapRef"
+			:center="{lat: -33.882617, lng: 151.194348}"
+			:zoom="15"
+			style="height: 300px">
+		</GmapMap>
+
 		<div class="cards">
-			<card 
+			<card v-if='application.search_data == ""'
 				v-for="restaurant in restaurants"
 				v-bind:data="{ 
 					id: restaurant.id,
 					name: restaurant.name,
 					rating: restaurant.rating,
-					image_url: restaurant.image_url
-				}"
-				
-				></card>
+					image_url: restaurant.imgUrl,
+					sustain_rating: restaurant.sustain_rating,
+					location: restaurant.locality,
+					badges: restaurant.badges,
+					comments: restaurant.comments
+				}"></card>
+
+
+
 		</div>
 		<div class="footer">
-
-			<h2>This is the footer</h2>
-
+			<small>Made by Sustain group for Unihack Sydney.</small>
 		</div>
+
+		{{ application.search_data }}
 
 
 		<modal v-if="this.application.modal_open"></modal>
@@ -43,14 +55,28 @@ export default {
 		Modal
 	},
 	computed: {
+		restaurantsFiltered (){
+			return this.$store.getters.restaurants.find(x => x.name = this.application.search_data);
+		},
 		restaurants (){
-			return this.$store.state.restaurants;
+			return this.$store.getters.restaurants;
 		},
 		application (){
 			return this.$store.getters.applicationState;
 		}
-	}
+	},
+	mounted () {
+		this.$http.get('http://172.16.6.162:8000/api/search/').then((response) => {
+			this.$store.commit('updateData', response.data);
+		})
+	},
+	methods: {
+		alert(){
+
+		}
+	}	
 }
+
 </script>
 <style scoped>
 	.cards{
@@ -67,8 +93,16 @@ export default {
 	}
 
 	.footer{
-		background-color: gray;
-		padding: 30px;
+		display: flex;
+		background-color: white;
+		padding: 25px;
 	}
+
+	#map {
+  		height: 200px;
+	}
+
+/* Optional: Makes the sample page fill the window. */
+
 
 </style>

@@ -8,6 +8,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
+
 Vue.config.productionTip = false
 Vue.component('star-rating', StarRating);
 Vue.use(VueGeolocation);
@@ -15,7 +16,7 @@ Vue.use(VueAxios, axios)
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyCKtPukhHO9i3gFbNYy9Pblm7luQ_N4mAE',
+    key: 'AIzaSyDq_n8chEXGEmZH5_VcrlZfS08imHfKPT8',
     libraries: 'places', // This is required if you use the Autocomplete plugin
   },
 })

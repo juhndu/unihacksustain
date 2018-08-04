@@ -12,30 +12,21 @@ export default new Vuex.Store({
 				location: "93 Glebe Point Rd, Glebe NSW 2037",
 				rating: 3,
 				image_url: 'https://www.goodfood.com.au/content/dam/images/2/a/3/9/9/image.related.articleLeadwide.620x349.2acpu.png/1354145773360.jpg'
-			},
-			{
-				id: 124,
-				name: "Tetsuya's Restaurant",
-				location: "529 Kent St, Sydney NSW 2000",
-				rating: 5,
-				image_url: 'https://www.broadsheet.com.au/media/cache/c6/ea/c6ea30e8dfd8952f06eec8e15cc1925a.jpg'
-			},
-			{
-				id: 125,
-				name: "Ester Restuarant",
-				location: "46-52 Meagher St, Chippendale NSW 2008",
-				rating: 4,
-				image_url: 'https://www.broadsheet.com.au/media/cache/1a/10/1a10358a3124576b4c8b2b2cc994fbe7.jpg'
 			}
 		],
 		application: {
 			modal_id: null,
 			modal_open: false,
+			search_data: ""
+		},
+		userLocation: {
+			lng: null,
+			lat: null
 		}
 	},
 	mutations: {
 		toggleModal (state, modal_id){
-			this.state.modal_id = modal_id;
+			this.state.application.modal_id = modal_id;
 			if(this.state.application.modal_open == true){
 				this.state.application.modal_open = false;
 			}else{
@@ -43,15 +34,30 @@ export default new Vuex.Store({
 			}
 		},
 		modifyRestaurants (state){
-			
+
+		},
+		updateData (state, data){
+			this.state.restaurants = data;
+		},
+		updateSearch (state, data){
+			console.log(data);
+			this.state.application.search_data = data;
 		}
 	},
-	actions: {
-
+	computed: {
+		application (){
+			return this.$store.getters.applicationState;
+		}
 	},
 	getters: {
 		applicationState: state => {
 			return state.application;
+		},
+		userLocation: state => {
+			return state.userLocation;
+		},
+		restaurants: state => {
+			return state.restaurants;
 		}
 	}
 })

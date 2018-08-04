@@ -27,14 +27,15 @@ export default {
 			.then(coordinates => {
 				this.isLoading = false;
 				this.state = true;
-				console.log(coordinates);
 
-				// this.axios.get("http://api.geonames.org/findNearestIntersection?lat=37.451&lng=-122.18&username=demo").then((response) => {
-				// 	console.log(response.data)
-				// })
+					
+				this.$http.get('http://172.16.6.162:8000/api/search/?lat=' + coordinates.lat + '&lon=' + coordinates.lng).then((response) => {
+					this.$store.commit('updateData', response.data);
+				})
+
 
 			});
-		}
+		},
 	}
 }
 </script>
