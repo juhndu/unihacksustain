@@ -1,7 +1,8 @@
 <template>
 	<div class="card" @click="openModal()">
         <div class="image">
-            <img :src="data.image_url">
+            <img v-if="data.image_url" class="image-not-found" :src="data.image_url">
+            <img v-else src="http://res.cloudinary.com/dkhgru81l/image/upload/v1533408566/Image_Not_Found_1x_qjofp8_kvzmmv.webp">
         </div>
         <div class="bottom-content">
                 <div class="bottom-content-title align-top">
@@ -74,6 +75,10 @@ export default {
 }
 </script>
 <style scoped>
+
+    .image-not-found{
+        
+    }
 
     .badge{
         display: flex;

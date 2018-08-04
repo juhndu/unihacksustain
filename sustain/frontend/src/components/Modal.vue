@@ -96,6 +96,7 @@ export default {
 			this.$http.get('http://172.16.6.162:8000/api/search/').then((response) => {
 				this.$store.commit('updateData', response.data);
 			})
+
 			this.hideModal();
 		}
 	},

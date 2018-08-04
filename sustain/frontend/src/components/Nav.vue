@@ -35,38 +35,39 @@ export default {
         toggleFilter(filterNumber){
             if (filterNumber == 0){
                 this.filter0 ? this.filter0 = false: this.filter0 = true;
+                this.search(this.searchContent);
             }
             if (filterNumber == 1){
                 this.filter1 ? this.filter1 = false: this.filter1 = true;
+                this.search(this.searchContent);
             }
             if (filterNumber == 2){
                 this.filter2 ? this.filter2 = false: this.filter2 = true;
+                this.search(this.searchContent);
             }
             if (filterNumber == 3){
                 this.filter3 ? this.filter3 = false: this.filter3 = true;
+                this.search(this.searchContent);
             }
-        }
-    },
-    watch : {
-        searchContent: function (val){
-
+        },
+        search(val){
             if (this.filter0 || this.filter1 || this.filter2 || this.filter3){
                 console.log("A filter is now active");
                 var gen_string = "http://172.16.6.162:8000/api/search/?q=";
                 gen_string += val;
                 if (this.filter0){
-                    gen_string += " " + this.filter1;
+                    gen_string += "&badge=local";
                 }
                 if (this.filter1){
-                    gen_string += " " + this.filter1;
+                    gen_string += "&badge=veg";
                 }
                 if (this.filter2){
-                    gen_string += " " + this.filter1;
+                    gen_string += "&badge=water";
                 }
                 if (this.filter3){
-                    gen_string += " " + this.filter1;
+                    gen_string += "&badge=waste";
                 }
-                this.$http.get('http://172.16.6.162:8000/api/search/?q=' + gen_string).then((response) => {
+                this.$http.get(gen_string).then((response) => {
 			        this.$store.commit('updateData', response.data);
 		        })
 
@@ -83,10 +84,11 @@ export default {
                     })
                 }   
             }
-
-    		// this.$http.get('http://172.16.6.162:8000/api/search/?q=' + val).then((response) => {
-			//     this.$store.commit('updateData', response.data);
-		    // })
+        }
+    },
+    watch : {
+        searchContent: function (val){
+            this.search(val);
         }
     },
     computed: {

@@ -28,6 +28,8 @@ export default {
 				this.isLoading = false;
 				this.state = true;
 
+
+				this.$store.commit("updateLocation", coordinates);
 					
 				this.$http.get('http://172.16.6.162:8000/api/search/?lat=' + coordinates.lat + '&lon=' + coordinates.lng).then((response) => {
 					this.$store.commit('updateData', response.data);
