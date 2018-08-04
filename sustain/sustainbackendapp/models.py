@@ -32,7 +32,7 @@ class Review(BaseModel):
     restaurant = models.IntegerField()
     score = models.IntegerField(default=randint(0,5))
     username = models.CharField(max_length=40, default="Anonymous")
-    comment = models.CharField(max_length=300)
+    comment = models.CharField(max_length=300,blank=True,null=True)
     waterUp = models.IntegerField(default=0)
     waterDown = models.IntegerField(default=0)
     wasteUp = models.IntegerField(default=0)
@@ -45,8 +45,5 @@ class Review(BaseModel):
 
 @receiver(post_save, sender=Review)
 def update_votes(sender, instance, **kwargs):
-    instance.waterDown = 1 - instance.waterUp
-    instance.wasteDown = 1 - instance.wasteUp
-    instance.localDown = 1 - instance.localUp
-    instance.vegetarianDown = 1 - instance.vegetarianUp
-    instance.save()
+    Review.objects.filter(pk=instance.pk).update(waterDown = 1-instance.waterUp, wasteDown = 1 - instance.wasteUp,
+            localDown = 1 - instance.localUp,vegetarianDown = 1 - instance.vegetarianUp)

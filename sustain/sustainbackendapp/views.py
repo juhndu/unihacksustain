@@ -24,18 +24,30 @@ def submitReview(request, rid):
     form = ReviewForm(request.data)
     if form.is_valid():
         print("valid")
-        form.save()
+        rv = form.save()
+        rv.save()
+        print(rv.comment)
         return Response("ok")
     return Response("failed")
 
 def genReviews(id):
     for i in range(0,10):
-        water = randint(0,1)
-        waste = randint(0,1)
+        water = randint(0,10)
+        waste = randint(0,10)
         loca = randint(0,1)
         vege = randint(0,10)
-        if(vege>7):
+        if(waste>6):
+            waste=0:
+        else:
+            waste=1
+        if(water>6):
+            water=0
+        else:
+            water=1
+        if(vege>6):
             vege=0
+        else:
+            vege=1
         rev = Review.objects.create(restaurant=id,score=randint(0,5),waterUp=water,wasteUp=waste,localUp=loca,vegetarianUp=vege)
     return
 
@@ -80,7 +92,7 @@ def dist(lat1, long1, lat2, long2):
     return c*6371
 
 def search(request):
-    Review.objects.all().delete()
+    #Review.objects.all().delete()
     lat = request.GET.get('lat', None)
     if lat is None:
         lat = '51.509865'
@@ -109,9 +121,10 @@ def search(request):
         new['locality'] = location['locality_verbose']
         new['cuisines'] = inner['cuisines']
         badges = Badge.objects.filter(restaurant = new['id'])
-        print(badges)
         seri = BadgeSerializer(badges, many=True)
-
+        comments = Review.objects.filter(restaurant=new['id']).exclude(comment__isnull=True)
+        comSeri = ReviewSerializer(comments, many=True)
+        new['comments'] = comSeri.data
         new['badges'] = seri.data
         new['rating'] = inner['user_rating']['aggregate_rating']
         new['dist'] = str(dist(float(lat), float(long), float(location['latitude']), float(location['longitude'])))
