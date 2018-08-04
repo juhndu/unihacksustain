@@ -17,6 +17,8 @@ class Badge(BaseModel):
     name = models.CharField(max_length=30)
     restaurant = models.IntegerField()
 
+class Cuisine(BaseModel):
+    name = models.CharField(max_length=30, unique=True)
 
 class Restaurant(BaseModel):
     name = models.CharField(max_length=60, default=None)

@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-  os.path.join(BASE_DIR, './frontend/build/static'),
+  os.path.join(BASE_DIR, './frontend/dist'),
   os.path.join(BASE_DIR, './sustain/static'),
 ]
 

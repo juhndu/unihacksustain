@@ -30,17 +30,28 @@ def submitReview(request, rid):
         return Response("ok")
     return Response("failed")
 
+def addCuisines(cuisineString):
+    cuis = cuisineString.split(',')
+    for c in cuis:
+        c.strip()
+        Cuisine.objects.get_or_create(name=c)
+    return
+
 def genReviews(id):
     for i in range(0,10):
         water = randint(0,10)
         waste = randint(0,10)
-        loca = randint(0,1)
+        loca = randint(0,10)
         vege = randint(0,10)
+        if(loca>6):
+            loca=0
+        else:
+            loca=1
         if(waste>6):
-            waste=0:
+            waste=0
         else:
             waste=1
-        if(water>6):
+        if(water>7):
             water=0
         else:
             water=1
@@ -102,15 +113,34 @@ def search(request):
     q = request.GET.get('q', '')
     if q is not '':
         q = '&q='+q
+    baz = request.GET.getlist('badge',None)
+
     r = requests.get('https://developers.zomato.com/api/v2.1/search?entity_type=zone'+q+'&lat='+lat+'&lon='+long+'&radius=1000&sort=real_distance&order=asc', \
     headers={"Accept": 'application/json', "user-key": '0db40869c4ea2cc5a9c1b27838491559'})
     r = r.json()['restaurants']
+    rMore = requests.get('https://developers.zomato.com/api/v2.1/search?entity_type=zone'+q+'&lat='+lat+'&lon='+long+'&start=20&radius=1000&sort=real_distance&order=asc', \
+    headers={"Accept": 'application/json', "user-key": '0db40869c4ea2cc5a9c1b27838491559'})
+    r.extend(rMore.json()['restaurants'])
+    rMore = requests.get('https://developers.zomato.com/api/v2.1/search?entity_type=zone'+q+'&lat='+lat+'&lon='+long+'&start=40&radius=1000&sort=real_distance&order=asc', \
+    headers={"Accept": 'application/json', "user-key": '0db40869c4ea2cc5a9c1b27838491559'})
+    r.extend(rMore.json()['restaurants'])
+    print(r)
     outList = []
     for resto in r:
         new = {}
         inner = resto['restaurant']
         location = inner['location']
         new['id'] = inner['id']
+        new['cuisines'] = inner['cuisines']
+        addCuisines(new['cuisines'])
+        #print(Badge.objects.filter(restaurant=new['id']).values('name'))
+        earlyStop = False
+        for b in baz:
+            if({'name':b} not in Badge.objects.filter(restaurant=new['id']).values('name')):
+                earlyStop = True
+        if(earlyStop):
+            #print("skipping")
+            continue
         reviews = Review.objects.filter(restaurant=new['id'])
         if not reviews:
             genReviews(new['id'])
@@ -119,7 +149,6 @@ def search(request):
         new['sustain_rating'] = revScores['comb']
         new['imgUrl'] = inner['featured_image']
         new['locality'] = location['locality_verbose']
-        new['cuisines'] = inner['cuisines']
         badges = Badge.objects.filter(restaurant = new['id'])
         seri = BadgeSerializer(badges, many=True)
         comments = Review.objects.filter(restaurant=new['id']).exclude(comment__isnull=True)
@@ -159,3 +188,10 @@ class RestaurantList(generics.ListAPIView):
         if nameSearch is not None:
             queryset = queryset.filter(name__icontains=nameSearch)
         return queryset.annotate(avg_rating=Avg('reviews__score'))
+
+class Cuisines(APIView):
+    queryset = Cuisine.objects.all()
+    def get(self, request):
+        cuis = Cuisine.objects.all()
+        seri = CuisineSerializer(cuis, many=True)
+        return Response(seri.data)
