@@ -14,6 +14,7 @@
 }
 body{
 	margin: 0px;
+	background-color: #d6d6d6;
 }
 #nav {
 	padding: 30px;

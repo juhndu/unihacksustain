@@ -1,14 +1,92 @@
 <template>
-	<div class="modal">
-        <!-- <div class="inner-modal" v-click-outside="hideModal">
-            
-            
-            
-            
-            
-            <h1>This is the modal</h1>
-        </div> -->
-    </div>
+	<div>
+		<button id="myBtn">Review Me</button> <!-- The Modal -->
+		<div class="modal" id="myModal">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="flex-container">
+					<div>
+						<!--left hand side of page
+						name
+						badges
+						comments
+						rating  -->
+						<table>
+							<!-- whole table  -->
+							<tr>
+								<td>
+									<table>
+										<tr>
+											<td>
+												<!-- left hand side of the table  -->
+												<h3>name of restraunt</h3>
+											</td>
+											<td>badges go here</td>
+											<td>star rating goes here<br></td>
+										</tr>
+										<tr></tr>
+									</table>comments go here
+								</td>
+								<td>
+									<!-- right hand side of the table  -->
+									<!--  REVIEW OF restraunt-->
+									<h2>Review</h2>
+									<table>
+										<tr>
+											<td></td>
+										</tr>
+										<tr>
+											<td>How is the quality of the Vegetarian option</td>
+											<td>
+												<br>
+												<form>
+													<!-- VALUES CHANGE TO 0,1 ,2 ETC TODO -->
+													<input name="veg_opt" type="radio" value="Yes"> Good<br>
+													<input name="veg_opt" type="radio" value="No"> Bad<br>
+													<input name="veg_opt" type="radio" value="No"> N/A<br>
+												</form>
+											</td>
+										</tr>
+										<tr>
+											<td>waste?</td>
+											<td>
+												<br>
+												<form>
+													<input name="question2" type="radio" value="upvote"> upvote<br>
+													<input name="question2" type="radio" value="neutral"> neutral<br>
+													<input name="question2" type="radio" value="downvote"> downvote<br>
+												</form>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												water?<br>
+												<form>
+													<input name="question3" type="radio" value="upvote"> upvote<br>
+													<input name="question3" type="radio" value="neutral"> neutral<br>
+													<input name="question3" type="radio" value="downvote"> downvote<br>
+												</form>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Local?<br>
+												<form>
+													<input name="local" type="radio" value="Yes"> Yes<br>
+													<input name="local" type="radio" value="No"> No<br>
+												</form>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -36,16 +114,61 @@ export default {
 }
 </script>
 <style scoped> 
-    .modal{
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: gray;
-    }
-    .inner-modal{
-        background-color: white;
-        min-height: 80vh;
-    }
-
+/*
+-------------------SUMMARY OF PAGE------------------
+Left hand side of modal box:
+  * name
+  * badges
+  * pictures
+  * comments
+right hand side of page:
+  review
+  Options:
+    -Vegetarian options
+    -Waste
+    - Water
+*/
+/* The Modal (background) */
+.modal {
+	/* display: none; Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+}
+/* The Close Button */
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+/* .split_left{
+  width: 50%;
+  float: left;
+}
+.split_right{
+  width: 50%;
+  float: right; */
+/* } */
 </style>
