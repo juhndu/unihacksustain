@@ -4,7 +4,7 @@ from .serializers import *
 
 # Create your views here.
 
-class PhotoList(generics.ListAPIView):
+class RestaurantList(generics.ListAPIView):
     serializer_class = RestaurantSerializer
 
     def get_queryset(self):
