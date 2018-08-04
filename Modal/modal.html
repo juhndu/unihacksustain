@@ -9,6 +9,7 @@
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 
+
 /*
 -------------------SUMMARY OF PAGE------------------
 Left hand side of modal box:
@@ -64,11 +65,20 @@ color: #000;
 text-decoration: none;
 cursor: pointer;
 }
+/* .split_left{
+  width: 50%;
+  float: left;
+}
+.split_right{
+  width: 50%;
+  float: right; */
+/* } */
+
+
+
 </style>
 </head>
 <body>
-
-<h2>restaurant name</h2>
 
 <!-- Trigger/Open The Modal -->
 <button id="myBtn">Review Me</button>
@@ -80,39 +90,81 @@ cursor: pointer;
 <div class="modal-content">
 <span class="close">&times;</span>
 
-<div class="split_left">
+<div class="flex-container">
+  <div>
 <!--left hand side of page
 name
 badges
 comments
 rating  -->
-<h1>restaurant name goes here  </h1>
-
-</div>
 <table>
-  <tr>
-    <td>Straws?</td>
+  <!-- whole table  -->
+  <td>
+    <table>
+      <td>
+      <!-- left hand side of the table  -->
+        <h3>name of restraunt</h3>
+      <td>
+        badges go here
+        <td>
+          star rating goes here
+          <br>
+          <tr>
+      </table>
+      comments go here
 
-    <td>
-      <br>
-      <form>
-        <input type ="radio" name = "question1" value="Yes"> Yes<br>
+  <td>
+    <!-- right hand side of the table  -->
+    <!--  REVIEW OF restraunt-->
+    <table>
+      <tr>
+        <h2>Review</h2>
+        <tr>
+      <td>How is the quality of the Vegetarian option</td>
 
-         <input type ="radio" name = "question1" value="No"> No<br>
-      </td>
-    </form>
-    <tr>
-      <td> Bottled water?</td>
       <td>
         <br>
         <form>
-          <input type ="radio" name = "question2" value="Yes"> Yes<br>
-          <input type ="radio" name = "question2" value="No"> No<br>
+          <!-- VALUES CHANGE TO 0,1 ,2 ETC TODO -->
+          <input type ="radio" name = "veg_opt" value="Yes"> Good<br>
+           <input type ="radio" name = "veg_opt" value="No"> Bad<br>
+           <input type ="radio" name = "veg_opt" value="No"> N/A<br>
         </td>
       </form>
+      <tr>
+        <td> waste?</td>
+        <td>
+          <br>
+          <form>
+            <input type ="radio" name = "question2" value="upvote"> upvote<br>
+            <input type ="radio" name = "question2" value="neutral"> neutral<br>
+            <input type ="radio" name = "question2" value="downvote"> downvote<br>
+
+          </td>
+        </form>
+        <tr>
+          <td>water?
+            <br>
+            <form>
+              <input type ="radio" name = "question3" value="upvote"> upvote<br>
+              <input type ="radio" name = "question3" value="neutral"> neutral<br>
+              <input type ="radio" name = "question3" value="downvote"> downvote<br>
+            </form>
+            <tr>
+              <td>Local?
+                <br>
+                <form>
+                  <input type ="radio" name = "local" value="Yes"> Yes<br>
+                   <input type ="radio" name = "local" value="No"> No<br>
+                </form>
 
 
-</div>
+      </table>
+
+
+
+
+</table>
 
 </div>
 
