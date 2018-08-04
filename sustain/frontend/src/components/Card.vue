@@ -1,10 +1,20 @@
 <template>
-	<div class="card">
-        <h2>Restarant Name</h2>
-        <p>Testing</p>
-        <star-rating v-model="rating"></star-rating>
-        <div class="bottom-modal">
-            <div class="button">Rate</div>
+	<div class="card" @click="openModal()">
+        <div class="image">
+            <img :src="data.image_url">
+        </div>
+        <div class="bottom-content">
+            <div class="bottom-content-title">
+                <h4>{{ data.name }}</h4>
+                <div class="right-panel">
+                    
+                </div>
+            </div>
+            <star-rating 
+                v-model="rating"
+                v-bind:star-size="20"
+                v-bind:increment="0.5">
+            </star-rating>
         </div>
     </div>
 </template>
@@ -14,10 +24,16 @@
 import StarRating from 'vue-star-rating'
 
 export default {
-	name: 'card',
+    name: 'card',
+    props: ['data'],
 	components: {
         StarRating
     },
+	methods: {
+		openModal(){
+            this.$store.commit('toggleModal', this.data.id);
+		}
+	},
     data: function(){
         return {
             rating: 3
@@ -26,12 +42,36 @@ export default {
 }
 </script>
 <style scoped>
+    .bottom-content-title{
+        display: flex;
+    }
+    h4{
+        color: #4f4f4f;
+        margin: 0px;
+    }
+    .image{
+        height: 150px;
+        overflow: hidden;
+    }
+    img{
+        border-radius: 5px;
+        width: 100%;
+    }
+    .bottom-content{
+        height: 200px;
+        padding: 15px;
+    }
     .card{
-        padding: 10px;
-        background-color: lightgray;
+        border-radius: 5px;
+        background-color: #FFFFFF;
+        box-shadow: 0 0 12px 0 hsla(0, 0%, 0%, 0.2);
         display: flex;
         flex-direction: column;
         text-align: left;
+
+    }
+    .card:hover{
+        box-shadow: 0 0 12px 0 hsla(0, 0%, 0%, 0.5);
     }
     .button{
         min-width: 100px;
@@ -44,6 +84,5 @@ export default {
         display: flex;
         justify-content: flex-end;
     }
-
 
 </style>
