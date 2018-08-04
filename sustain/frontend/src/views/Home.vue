@@ -19,7 +19,8 @@
 					image_url: restaurant.imgUrl,
 					sustain_rating: restaurant.sustain_rating,
 					location: restaurant.locality,
-					badges: restaurant.badges
+					badges: restaurant.badges,
+					comments: restaurant.comments
 				}"></card>
 
 

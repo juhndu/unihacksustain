@@ -18,6 +18,14 @@
 									badges go here
 									{{ activeCard.rating }} star rating (Zomato)<br>
 									<img class="image" :src="activeCard.imgUrl">
+									<h2>Comments</h2>
+									<hr>
+									<div v-for="comment in activeCard.comments" class="comment-item">
+										<h4>{{ comment.comment }}</h4>
+										<hr>
+									</div>
+
+
 								</td>
 								<td class="right-side">
 									<!-- right hand side of the table  -->
@@ -85,6 +93,9 @@ export default {
 				localUp: this.locally_produced,
 				comment: this.comment
 			});
+			this.$http.get('http://172.16.6.162:8000/api/search/').then((response) => {
+				this.$store.commit('updateData', response.data);
+			})
 			this.hideModal();
 		}
 	},
@@ -131,7 +142,7 @@ export default {
 		flex-direction: column;
 	}
 	.left-side{
-		width: 60%;
+
 	}
 
 	#comment{
@@ -147,7 +158,7 @@ export default {
 	}
 
 	img{
-		width: 100%;
+		max-height: 250px;
 	}
 
 	/* .image{

@@ -50,21 +50,21 @@ export default {
     watch : {
         searchContent: function (val){
 
-            if (filter0 || filter1 || filter2 || filter3){
+            if (this.filter0 || this.filter1 || this.filter2 || this.filter3){
                 console.log("A filter is now active");
                 var gen_string = "http://172.16.6.162:8000/api/search/?q=";
                 gen_string += val;
-                if (filter0){
-                    gen_string += " " + filter1;
+                if (this.filter0){
+                    gen_string += " " + this.filter1;
                 }
-                if (filter1){
-                    gen_string += " " + filter1;
+                if (this.filter1){
+                    gen_string += " " + this.filter1;
                 }
-                if (filter2){
-                    gen_string += " " + filter1;
+                if (this.filter2){
+                    gen_string += " " + this.filter1;
                 }
-                if (filter3){
-                    gen_string += " " + filter1;
+                if (this.filter3){
+                    gen_string += " " + this.filter1;
                 }
                 this.$http.get('http://172.16.6.162:8000/api/search/?q=' + gen_string).then((response) => {
 			        this.$store.commit('updateData', response.data);
