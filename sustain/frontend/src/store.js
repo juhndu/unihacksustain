@@ -42,6 +42,11 @@ export default new Vuex.Store({
 		updateSearch (state, data){
 			console.log(data);
 			this.state.application.search_data = data;
+		},
+		updateLocation (state, data){
+			this.state.userLocation.lng = data.lng;
+			this.state.userLocation.lat = data.lat;
+			console.log(data);
 		}
 	},
 	computed: {
