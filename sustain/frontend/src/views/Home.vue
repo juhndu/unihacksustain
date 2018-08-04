@@ -6,7 +6,7 @@
 			ref="mapRef"
 			:center="{lat: -33.882617, lng: 151.194348}"
 			:zoom="15"
-			style="height: 300px">
+			style="height: 250px">
 		</GmapMap>
 
 		<div class="cards">
@@ -22,9 +22,6 @@
 					badges: restaurant.badges,
 					comments: restaurant.comments
 				}"></card>
-
-
-
 		</div>
 		<div class="footer">
 			<small>Made by Sustain group for Unihack Sydney.</small>
@@ -47,6 +44,11 @@ import Modal from '@/components/Modal.vue';
 
 export default {
 	name: 'home',
+	data: function(){
+        return {
+			loading: false
+        }
+    },
 	components: {
 		HelloWorld,
 		Navigation,
@@ -74,7 +76,7 @@ export default {
 		alert(){
 
 		}
-	}	
+	}
 }
 
 </script>
@@ -82,13 +84,19 @@ export default {
 	.cards{
 		margin: 20px;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 		grid-gap: 20px;
 	}
 
 	@media only screen and (max-width: 600px){
 		.cards{
 			grid-template-columns: 1fr;
+		}
+	}
+
+	@media only screen and (max-width: 900px){
+		.cards{
+			grid-template-columns: 1fr 1fr;
 		}
 	}
 
