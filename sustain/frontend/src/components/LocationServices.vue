@@ -1,8 +1,8 @@
 <template>
-	<div class="location-services" @click="getLocation">
-		<div v-if="!this.state && !isLoading">Activate location services. <i class="material-icons"> location_on</i></div>
-		<div v-if="this.state && !isLoading">Location services are working! <i class="material-icons"> location_on</i></div>
-		<pulse-loader v-if="isLoading"></pulse-loader>
+	<div class="location-services">
+		<div @click="getLocation" class="location-item" v-if="!this.state && !isLoading">Activate location services.</div>
+		<div class="location-item" v-if="this.state && !isLoading">Location services are working!</div>
+		<pulse-loader v-if="isLoading" color="rgb(239, 255, 239)"></pulse-loader>
 	</div>
 </template>
 
@@ -10,7 +10,7 @@
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 export default {
-	name: 'HelloWorld',
+	name: 'LocationServices',
 	components: {
     	PulseLoader
   	},
@@ -28,6 +28,11 @@ export default {
 				this.isLoading = false;
 				this.state = true;
 				console.log(coordinates);
+
+				// this.axios.get("http://api.geonames.org/findNearestIntersection?lat=37.451&lng=-122.18&username=demo").then((response) => {
+				// 	console.log(response.data)
+				// })
+
 			});
 		}
 	}
@@ -39,7 +44,18 @@ export default {
 .location-services{
 	display: flex;
 	justify-content: flex-end;
-	background-color: antiquewhite;
+	background-color: #d6d6d6;
 	padding: 10px;
+	height: 30px;
+}
+
+.location-item{
+	align-items: center;
+	display: flex;
+}
+
+.v-spinner{
+	display: flex;
+	align-items: center;
 }
 </style>

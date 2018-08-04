@@ -1,88 +1,81 @@
 <template>
-	<div>
-		<button id="myBtn">Review Me</button> <!-- The Modal -->
-		<div class="modal" id="myModal">
-			<!-- Modal content -->
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<div class="flex-container">
-					<div>
-						<!--left hand side of page
-						name
-						badges
-						comments
-						rating  -->
-						<table>
-							<!-- whole table  -->
-							<tr>
-								<td>
-									<table>
-										<tr>
-											<td>
-												<!-- left hand side of the table  -->
-												<h3>name of restraunt</h3>
-											</td>
-											<td>badges go here</td>
-											<td>star rating goes here<br></td>
-										</tr>
-										<tr></tr>
-									</table>comments go here
-								</td>
-								<td>
-									<!-- right hand side of the table  -->
-									<!--  REVIEW OF restraunt-->
-									<h2>Review</h2>
-									<table>
-										<tr>
-											<td></td>
-										</tr>
-										<tr>
-											<td>How is the quality of the Vegetarian option</td>
-											<td>
-												<br>
-												<form>
-													<!-- VALUES CHANGE TO 0,1 ,2 ETC TODO -->
-													<input name="veg_opt" type="radio" value="Yes"> Good<br>
-													<input name="veg_opt" type="radio" value="No"> Bad<br>
-													<input name="veg_opt" type="radio" value="No"> N/A<br>
-												</form>
-											</td>
-										</tr>
-										<tr>
-											<td>waste?</td>
-											<td>
-												<br>
-												<form>
-													<input name="question2" type="radio" value="upvote"> upvote<br>
-													<input name="question2" type="radio" value="neutral"> neutral<br>
-													<input name="question2" type="radio" value="downvote"> downvote<br>
-												</form>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												water?<br>
-												<form>
-													<input name="question3" type="radio" value="upvote"> upvote<br>
-													<input name="question3" type="radio" value="neutral"> neutral<br>
-													<input name="question3" type="radio" value="downvote"> downvote<br>
-												</form>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Local?<br>
-												<form>
-													<input name="local" type="radio" value="Yes"> Yes<br>
-													<input name="local" type="radio" value="No"> No<br>
-												</form>
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
-					</div>
+	<div class="modal" id="myModal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span @click="hideModal" class="close">&times;</span>
+			<div class="flex-container">
+				<div>
+					<!--left hand side of page
+					name
+					badges
+					comments
+					rating  -->
+					<table>
+						<!-- whole table  -->
+						<tr>
+							<td>
+								<table>
+									<tr>
+										<td>
+											<!-- left hand side of the table  -->
+											<h3>name of restraunt</h3>
+										</td>
+										<td>badges go here</td>
+										<td><!-- integers to go here  -->
+										star rating goes here(enviornmental) star rating (Zomato)<br></td>
+									</tr>
+									<tr></tr>
+								</table>picture goes here comments go here
+							</td>
+							<td>
+								<!-- right hand side of the table  -->
+								<!--  REVIEW OF restraunt-->
+								<h2>Review</h2>
+								<table>
+									<tr>
+										<td></td>
+									</tr>
+									<tr>
+										<td>How is the quality of the Vegetarian option</td>
+										<td>
+											<br>
+											<form id="review" name="review">
+												<input name="veg_opt" type="radio" value="100"> Good<br>
+												<input name="veg_opt" type="radio" value="0"> Bad<br>
+												<input name="veg_opt" type="radio" value=" "> N/A<br>
+											</form>
+										</td>
+									</tr>
+									<tr>
+										<td>waste?</td>
+										<td><br>
+										<input name="question2" type="radio" value="100"> upvote<br>
+										<input name="question2" type="radio" value=""> neutral<br>
+										<input name="question2" type="radio" value="0"> downvote<br></td>
+									</tr>
+									<tr>
+										<td>
+											water?<br>
+											<form>
+												<input name="question3" type="radio" value="100"> upvote<br>
+												<input name="question3" type="radio" value=" "> neutral<br>
+												<input name="question3" type="radio" value="0"> downvote<br>
+												<table>
+													<tr>
+														<td>is produce locally sourced?<br>
+														<input name="local" type="radio" value="100"> Yes<br>
+														<input name="local" type="radio" value="0"> No<br>
+														<input name="local" type="radio" value=""> I dont Know<br></td>
+													</tr>
+												</table><!-- @Eugene please fix submit button :)  -->
+												<button form="review" type="submit" value="Submit">Submit</button>
+											</form>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -97,15 +90,19 @@ export default {
     name: 'Modal',
     methods: {
         hideModal(){
+			console.log("Hiding modal");
             this.$store.commit('toggleModal');
         }
-    },
+	},
+	mounted(){
+		
+	},
 	components: {
 
     },
     data: function(){
         return {
-
+			name: "Hello world"
         }
     },
     directives: {
@@ -130,7 +127,6 @@ right hand side of page:
 */
 /* The Modal (background) */
 .modal {
-	/* display: none; Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
 	padding-top: 100px; /* Location of the box */
@@ -171,4 +167,5 @@ right hand side of page:
   width: 50%;
   float: right; */
 /* } */
+
 </style>
