@@ -1,6 +1,6 @@
 from django.db import models
 from decimal import *
-from random import randint
+
 
 # Create your models here.
 
@@ -26,9 +26,9 @@ class Restaurant(BaseModel):
 
 
 class Review(BaseModel):
-    restaurant = models.IntegerField(unique=True)
-    sumScore = models.IntegerField()
-    countScore = models.IntegerField(default=10)
+    restaurant = models.IntegerField()
+    score = models.IntegerField()
+    username = models.CharField(max_length=40, default="Anonymous")
     waterUp = models.IntegerField(default=0)
     waterDown = models.IntegerField(default=0)
     wasteUp = models.IntegerField(default=0)
@@ -40,6 +40,6 @@ class Review(BaseModel):
 
 
 class Comment(BaseModel):
-    restaurant = models.IntegerField(unique=True)
+    restaurant = models.IntegerField()
     username = models.CharField(max_length=40)
     comment = models.CharField(max_length=300)

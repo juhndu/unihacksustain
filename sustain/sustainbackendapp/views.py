@@ -1,19 +1,33 @@
 from .models import *
 from .serializers import *
 from django.shortcuts import render
-from django.db.models import Avg
+from django.db.models import Avg, Sum
 from django.http import JsonResponse
 from math import radians, cos, sin, asin, sqrt
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
 import requests
-
+from random import randint
 
 
 # Create your views here.
 
 #def comments(request, resto_id):
+
+def genReviews(id):
+    for i in range(0,10):
+        water = randint(0,1)
+        waste = randint(0,1)
+        loca = randint(0,1)
+        vege = randint(0,10)
+        if(vege>7):
+            vege=0
+        rev = Review.objects.create(restaurant=id,score=randint(0,6),waterUp=water,waterDown=1-water,wasteUp=waste,wasteDown=1-waste,localUp=loca,localDown=1-loca,vegetarianUp=vege,vegetarianDown=1-vege)
+    return
+
+def scoreReviews(id):
+    return
 
 def dist(lat1, long1, lat2, long2):
     lat1, long1, lat2, long2 = map(radians, [lat1, long1, lat2, long2])
@@ -24,14 +38,15 @@ def dist(lat1, long1, lat2, long2):
     return c*6371
 
 def search(request):
+    Review.objects.all().delete()
     lat = request.GET.get('lat', None)
     if lat is None:
-        lat = '-33.897'
-    long = request.GET.get('long', None)
+        lat = '51.509865'
+    long = request.GET.get('lon', None)
     if long is None:
-        long = '151.179'
+        long = '-0.118092'
     q = request.GET.get('q', '')
-    if q is not None:
+    if q is not '':
         q = '&q='+q
     r = requests.get('https://developers.zomato.com/api/v2.1/search?entity_type=zone'+q+'&lat='+lat+'&lon='+long+'&radius=1000&sort=real_distance&order=asc', \
     headers={"Accept": 'application/json', "user-key": '0db40869c4ea2cc5a9c1b27838491559'})
@@ -42,6 +57,31 @@ def search(request):
         inner = resto['restaurant']
         location = inner['location']
         new['id'] = inner['id']
+        reviews = Review.objects.filter(restaurant=new['id'])
+        if not reviews:
+            genReviews(new['id'])
+        new['name'] = inner['name']
+        reviews = Review.objects.filter(restaurant=new['id'])
+        wasteUps = 0
+        wasteDowns = 0
+        localUps = 0
+        localDowns = 0
+        waterUps = 0
+        waterDowns = 0
+        vegUps = 0
+        vegDowns = 0
+        for r in reviews:
+            wasteUps+=r.wasteUp
+            wasteDowns+=r.wasteDown
+            localUps+=r.localUp
+            localDowns+=r.localDown
+            waterUps+=r.waterUp
+            waterDowns+=r.waterDown
+            vegUps+=r.vegetarianUp
+            vegDowns+=r.vegetarianDown
+        s = float(wasteUps)/(float(wasteUps)+float(wasteDowns))+float(waterUps)/(float(waterUps)+float(waterDowns))+ \
+            float(vegUps)/(float(vegUps)+float(vegDowns))+ float(localUps)/(float(localUps)+float(localDowns))
+        new['sustain_rating'] = s*5.0/4.0
         new['imgUrl'] = inner['featured_image']
         new['locality'] = location['locality_verbose']
         new['cuisines'] = inner['cuisines']
