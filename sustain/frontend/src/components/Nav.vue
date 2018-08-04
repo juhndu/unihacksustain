@@ -50,16 +50,49 @@ export default {
     watch : {
         searchContent: function (val){
 
-            this.axios.get('').then((response) => {
-                console.log(response);
-            })
+            if (filter0 || filter1 || filter2 || filter3){
+                console.log("A filter is now active");
+                var gen_string = "http://172.16.6.162:8000/api/search/?q=";
+                gen_string += val;
+                if (filter0){
+                    gen_string += " " + filter1;
+                }
+                if (filter1){
+                    gen_string += " " + filter1;
+                }
+                if (filter2){
+                    gen_string += " " + filter1;
+                }
+                if (filter3){
+                    gen_string += " " + filter1;
+                }
+                this.$http.get('http://172.16.6.162:8000/api/search/?q=' + gen_string).then((response) => {
+			        this.$store.commit('updateData', response.data);
+		        })
 
-				// this.axios.get("http://api.geonames.org/findNearestIntersection?lat=37.451&lng=-122.18&username=demo").then((response) => {
-				// 	console.log(response.data)
-				// })
+            }else{
+                if (this.userLocation.lng == null){
+                    console.log("Is null");
+                    this.$http.get('http://172.16.6.162:8000/api/search/?q=' + val).then((response) => {
+                        this.$store.commit('updateData', response.data);
+                    })
+                }else{ 
+                    console.log("Is not null");
+                    this.$http.get('http://172.16.6.162:8000/api/search/?q=' + val + '&lat=' + this.userLocation.lat + '&lon' + this.userLocation.lng).then((response) => {
+                        this.$store.commit('updateData', response.data);
+                    })
+                }   
+            }
 
-            console.log(val);
+    		// this.$http.get('http://172.16.6.162:8000/api/search/?q=' + val).then((response) => {
+			//     this.$store.commit('updateData', response.data);
+		    // })
         }
+    },
+    computed: {
+        userLocation (){
+			return this.$store.getters.userLocation;
+		}
     }
 }
 </script>
