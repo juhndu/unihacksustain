@@ -18,11 +18,11 @@
 
 /sustain/frontend/src/**/*.css
 
-
-/sustain/sustain/__pycache__/*
-/sustain/sustainbackendapp/__pycache__/*
+*.pyc
+sustain/sustain/__pycache__/*
+sustain/sustainbackendapp/__pycache__/*
 /__pycache__/*
 */__pycache__/*
 */__pycache__
-/sustain/sustainbackendapp/migrations/__pycache__/*
-/sustain/sustainbackendapp/migrations/__pycache__/
+sustain/sustainbackendapp/migrations/__pycache__/*
+sustain/sustainbackendapp/migrations/__pycache__/
