@@ -18,4 +18,6 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^api/restaurant/$', views.RestaurantList.as_view()),
+    re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]
