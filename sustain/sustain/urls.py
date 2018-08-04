@@ -13,11 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from sustainbackendapp import views
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import include, url
+from django.urls import path, re_path
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^api/restaurant/$', views.RestaurantList.as_view()),
+    #url(r'^restaurants/(?P<resto_id>\d+)/comments/$', views.delete_post, name='delete-post'),
+    url(r'^api/dummy/$', views.Dummy.as_view()),
+    url(r'^api/search/$', views.search),
+    url(r'^api/restaurants/$', views.RestaurantList.as_view()),
     re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]

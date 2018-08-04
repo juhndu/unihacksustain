@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'sustainbackendapp.apps.SustainbackendappConfig'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +77,12 @@ WSGI_APPLICATION = 'sustain.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sustaindb',
+        'USER': 'postgres',
+        'PASSWORD': 'password123',
+        'HOST': '127.0.0.1',
+        'PORT': '5433',
     }
 }
 
@@ -99,6 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, './frontend/build/static'),
+  os.path.join(BASE_DIR, './sustain/static'),
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
