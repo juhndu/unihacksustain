@@ -7,3 +7,6 @@ team Members:
   -Jamie Ramjan
   -Bradley Rego
 
+Instructions:
+
+Front-end can be deployed using NPM from /sustain/frontend/
