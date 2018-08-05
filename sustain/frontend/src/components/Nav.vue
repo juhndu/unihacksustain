@@ -54,10 +54,11 @@ export default {
             this.$router.push({ path: 'help' });
         },
         search(val){
+            var gen_string = "http://172.16.6.162:8000/api/search/?q=";
+            gen_string += val;
+
             if (this.filter0 || this.filter1 || this.filter2 || this.filter3){
                 console.log("A filter is now active");
-                var gen_string = "http://172.16.6.162:8000/api/search/?q=";
-                gen_string += val;
                 if (this.filter0){
                     gen_string += "&badge=local";
                 }
@@ -70,23 +71,16 @@ export default {
                 if (this.filter3){
                     gen_string += "&badge=waste";
                 }
-                this.$http.get(gen_string).then((response) => {
-			        this.$store.commit('updateData', response.data);
-		        })
-
-            }else{
-                if (this.userLocation.lng == null){
-                    console.log("Is null");
-                    this.$http.get('http://172.16.6.162:8000/api/search/?q=' + val).then((response) => {
-                        this.$store.commit('updateData', response.data);
-                    })
-                }else{ 
-                    console.log("Is not null");
-                    this.$http.get('http://172.16.6.162:8000/api/search/?q=' + val + '&lat=' + this.userLocation.lat + '&lon' + this.userLocation.lng).then((response) => {
-                        this.$store.commit('updateData', response.data);
-                    })
-                }   
             }
+            
+            if (this.userLocation.log){
+                gen_string += '&lat=' + this.userLocation.lat + '&lon' + this.userLocation.lng;
+            }
+            
+            this.$http.get(gen_string).then((response) => {
+                this.$store.commit('updateData', response.data);
+            })
+
         }
     },
     watch : {
