@@ -25,7 +25,7 @@
 
 							<div class="ratings">
 								<small>Sustainability: </small>
-								<star-rating 
+								<star-rating
 									v-model="this.activeCard.sustain_rating"
 									v-bind:star-size="20"
 									v-bind:increment="0.1"
@@ -34,7 +34,7 @@
 									active-color="rgb(64, 207, 71)">
 								</star-rating>
 								<small>Zomato: </small>
-								<star-rating 
+								<star-rating
 									v-model="this.activeCard.rating"
 									v-bind:star-size="15"
 									v-bind:increment="0.1"
@@ -49,7 +49,7 @@
 							<div class="comments">
 								<div v-if="activeCard.comments.length == 0">
 									<small>There are currently no comments to display</small>
-								</div>	
+								</div>
 								<div v-for="comment in activeCard.comments" class="comment-item">
 									<h4>{{ comment.comment }}</h4>
 									<hr>
@@ -127,7 +127,7 @@ export default {
             this.$store.commit('toggleModal');
 		},
 		submitReview(){
-			this.axios.post('http://172.16.6.162:8000/api/restaurants/' + this.activeCard.id + '/review', {
+			this.axios.post('http://localhost:8000/api/restaurants/' + this.activeCard.id + '/review', {
 				restaurant: this.activeCard.id,
 				vegetarianUp: this.vegetarian_options,
 				wasteUp: this.waste,
@@ -135,7 +135,7 @@ export default {
 				localUp: this.locally_produced,
 				comment: this.comment
 			});
-			this.$http.get('http://172.16.6.162:8000/api/search/').then((response) => {
+			this.$http.get('http://localhost:8000/api/search/').then((response) => {
 				this.$store.commit('updateData', response.data);
 			})
 
@@ -182,10 +182,10 @@ export default {
 			return this.$store.getters.restaurants.find(x => x.id === this.$store.getters.applicationState.modal_id);
 		}
 	}
-	
+
 }
 </script>
-<style scoped> 
+<style scoped>
 
 	.close-button{
 		position: absolute;

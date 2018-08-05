@@ -12,7 +12,7 @@
 		<div class="cards">
 			<card v-if='application.search_data == ""'
 				v-for="restaurant in restaurants"
-				v-bind:data="{ 
+				v-bind:data="{
 					id: restaurant.id,
 					name: restaurant.name,
 					rating: restaurant.rating,
@@ -68,7 +68,7 @@ export default {
 		}
 	},
 	mounted () {
-		this.$http.get('http://172.16.6.162:8000/api/search/').then((response) => {
+		this.$http.get('http://localhost:8000/api/search/').then((response) => {
 			this.$store.commit('updateData', response.data);
 		})
 	},

@@ -24,7 +24,7 @@
                 </div>
                 <div class="align-bottom">
                     <small>Sustainability: </small>
-                    <star-rating 
+                    <star-rating
                         v-model="data.sustain_rating"
                         v-bind:star-size="20"
                         v-bind:increment="0.1"
@@ -33,7 +33,7 @@
                         active-color="rgb(64, 207, 71)">
                     </star-rating>
                     <small>Zomato: </small>
-                    <star-rating 
+                    <star-rating
                         v-model="zomatoRating"
                         v-bind:star-size="15"
                         v-bind:increment="0.1"
@@ -77,7 +77,7 @@ export default {
 <style scoped>
 
     .image-not-found{
-        
+
     }
 
     .badge{
@@ -94,7 +94,7 @@ export default {
         display: flex;
         width:20px;
         padding: 10px;
-        
+
         border-radius: 5px;
         background-color: rgb(64, 207, 71);
         /* background-color: blue; */

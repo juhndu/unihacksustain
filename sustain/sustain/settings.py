@@ -110,11 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
-  os.path.join(BASE_DIR, './frontend/dist'),
-  os.path.join(BASE_DIR, './sustain/static'),
+  os.path.join(BASE_DIR, 'frontend/dist')
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'public')
+STATIC_URL = '/static/'
+print(STATICFILES_DIRS)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -135,4 +137,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-ALLOWED_HOSTS = ['172.16.7.7','172.16.6.162']
+ALLOWED_HOSTS = ['172.16.7.7','172.16.6.162','localhost']
